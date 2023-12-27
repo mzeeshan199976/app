@@ -8,7 +8,6 @@ from typing import List
 
 app = FastAPI()
 
-# Enable CORS
 origins = ["http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
@@ -44,8 +43,7 @@ async def send_progress(websocket, progress):
 async def zip_files_endpoint(files: List[UploadFile] = File(...)):
     process_id = uuid.uuid4().hex
     output_zip_path = get_zip_filename()
-
-    # Await the result of the zipping task
+    
     await zip_files(files, output_zip_path)
 
     return {"process_id": process_id, "message": "Zipping process completed"}
@@ -58,7 +56,6 @@ async def websocket_endpoint(websocket: WebSocket, process_id: str):
         await send_progress(websocket, "100% - Zipping process completed")
 
     except WebSocketDisconnect:
-        # Handle WebSocket disconnect
         del websocket_connections[process_id]
         await websocket.close()
 
