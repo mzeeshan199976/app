@@ -28,7 +28,7 @@ const FileUpload = () => {
     }
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/zip-files/', formData, {
+      const response = await axios.post('http://127.0.0.1:5050/zip-files/', formData, {
         onUploadProgress: (progressEvent) => {
           const progressPercentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           setProgress(progressPercentage);
